@@ -80,16 +80,17 @@ else()
   message(STATUS "divsufsort: " ${DSS})
   message(STATUS "divsufsort64: " ${DSS64})
 
-  add_library(sdsl STATIC IMPORTED)
-  set_property(TARGET sdsl PROPERTY IMPORTED_LOCATION ${SDSL_LIB})
-  target_include_directories(sdsl INTERFACE ${SDSL_SRC})
+  if(NOT TARGET sdsl)
+    add_library(sdsl STATIC IMPORTED)
+    set_property(TARGET sdsl PROPERTY IMPORTED_LOCATION ${SDSL_LIB})
+    target_include_directories(sdsl INTERFACE ${SDSL_SRC})
 
-  add_library(divsufsort STATIC IMPORTED)
-  set_property(TARGET divsufsort PROPERTY IMPORTED_LOCATION ${DSS})
-      
-  add_library(divsufsort64 STATIC IMPORTED)
-  set_property(TARGET divsufsort64 PROPERTY IMPORTED_LOCATION ${DSS64})
-
+    add_library(divsufsort STATIC IMPORTED)
+    set_property(TARGET divsufsort PROPERTY IMPORTED_LOCATION ${DSS})
+        
+    add_library(divsufsort64 STATIC IMPORTED)
+    set_property(TARGET divsufsort64 PROPERTY IMPORTED_LOCATION ${DSS64})
+  endif()
 endif()
 
 message(STATUS "Building in ${CMAKE_BUILD_TYPE} mode")
