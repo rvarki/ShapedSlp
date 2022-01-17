@@ -75,12 +75,24 @@ if (NOT SDSL_LIB)
 else()
   find_library(DSS divsufsort)
   find_library(DSS64 divsufsort64)
-  message("sdsl: " ${SDSL_LIB})
-  message("divsufsort: " ${DSS})
-  message("divsufsort64: " ${DSS64})
+  find_path(SDSL_SRC sdsl)
+  message(STATUS "sdsl: " ${SDSL_LIB})
+  message(STATUS "divsufsort: " ${DSS})
+  message(STATUS "divsufsort64: " ${DSS64})
+
+  add_library(sdsl STATIC IMPORTED)
+  set_property(TARGET sdsl PROPERTY IMPORTED_LOCATION ${SDSL_LIB})
+  target_include_directories(sdsl INTERFACE ${SDSL_SRC})
+
+  add_library(divsufsort STATIC IMPORTED)
+  set_property(TARGET divsufsort PROPERTY IMPORTED_LOCATION ${DSS})
+      
+  add_library(divsufsort64 STATIC IMPORTED)
+  set_property(TARGET divsufsort64 PROPERTY IMPORTED_LOCATION ${DSS64})
+
 endif()
 
-message("Building in ${CMAKE_BUILD_TYPE} mode")
+message(STATUS "Building in ${CMAKE_BUILD_TYPE} mode")
 
 # set(CMAKE_CXX_FLAGS "--std=c++2a /opt/local/lib/libstdc++.6.dylib")
 # set(CMAKE_CXX_FLAGS "--std=c++2a")
